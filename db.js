@@ -1,21 +1,22 @@
-const db = {
-  0: '附近',
-  1: '兴趣部落',
-  2: '游戏',
-  3: '扩列',
-  4: '自习室',
-  5: '波洞动漫',
-  6: '语音房',
-  7: '玩一玩',
-  8: '阅读',
-  9: '购物',
-  10: '微视',
-  11: '直播',
-  12: '全民K歌',
-  13: '音乐',
-  14: '企鹅电竞',
-  15: '坦白说',
-  16: '运动',
-};
+const fs = require('fs');
+const protobuf = require('protocol-buffers');
+ 
+const messages = protobuf(fs.readFileSync('./proto/mqq.proto'));
+ 
+const buf1 = messages.Test.encode({
+  num: 42,
+  payload: 'hello world'
+});
 
-module.exports = { db };
+const buf2 = messages.AnotherOne.encode({
+  list: [
+    messages.FOO.BAR
+  ]
+})
+
+console.log(messages);
+console.log(buf1, '=======', buf2);
+
+const buf3 = messages.Test.decode(buf1);
+const buf4 = messages.AnotherOne.decode(buf2);
+console.log(buf3, '=======', buf4);
