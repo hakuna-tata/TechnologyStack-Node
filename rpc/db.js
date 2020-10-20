@@ -1,5 +1,5 @@
 const fs = require('fs');
-const protobuf = require('protocol-buffers');
+const protobuf = require('protocol-buffers'); // 创建 package.json 下载依赖
  
 const messages = protobuf(fs.readFileSync('./proto/mqq.proto'));
  
