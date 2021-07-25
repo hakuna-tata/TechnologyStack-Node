@@ -1,7 +1,7 @@
 const http = require('http');
 const domain = require('domain');
 
-var uid = 0;
+var _uid = 0;
 
 const doRoute = (currentDomain) => {
     console.log(currentDomain);
@@ -12,7 +12,7 @@ const domainRequest = (req, res) => {
     const d = domain.create();
 
     d.start =  Date.now();
-    d._uid = ++uid;
+    d._uid = ++_uid;
 
     // 使用 process 监听 uncaughtException 捕获也可以
     d.on('error', (err) => {
@@ -27,10 +27,6 @@ const domainRequest = (req, res) => {
     d.run(() => {
         doRoute(d);
     });
-
-    res.once('finish', () => {
-       // 
-    })
 }
 
 const server = http.createServer((req, res) => {
