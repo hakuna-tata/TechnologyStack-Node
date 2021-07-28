@@ -1,8 +1,25 @@
-console.log(module);
+const path = require('path');
+const NativeModule = require('module');
+const vm = require('vm');
 
 const Module = module.__proto__.constructor;
+const m = new Module();
+m.path = path.resolve(__dirname);
+m.filename = path.resolve(__dirname, 'bundle.js');
 
-console.log(Module);
-console.log(Module.prototype);
+const getModuleFromString = (bundle) => {
+	const wrapper = NativeModule.wrap(bundle);
+	const script = new vm.Script(wrapper, { 
+		displayErrors: true
+	});
 
-console.log(new Module('./test.js'))
+	const result = script.runInThisContext();
+	result.call(m.exports, m.exports, require, m);
+
+	return m;
+}
+
+const createModule = getModuleFromString(require('./char'));
+
+console.log(createModule);
+(createModule.exports)();
