@@ -2,13 +2,15 @@ const path = require('path');
 const NativeModule = require('module');
 const vm = require('vm');
 
+const char = 'module.exports = function() { console.log("test compile") }';
+
 const Module = module.__proto__.constructor;
 const m = new Module();
 m.path = path.resolve(__dirname);
-m.filename = path.resolve(__dirname, 'bundle.js');
+m.filename = path.resolve(__dirname, 'char.js');
 
-const getModuleFromString = (bundle) => {
-	const wrapper = NativeModule.wrap(bundle);
+const getModuleFromString = (char) => {
+	const wrapper = NativeModule.wrap(char);
 	const script = new vm.Script(wrapper, { 
 		displayErrors: true
 	});
@@ -19,7 +21,7 @@ const getModuleFromString = (bundle) => {
 	return m;
 }
 
-const createModule = getModuleFromString(require('./char'));
+const createModule = getModuleFromString(char);
 
 console.log(createModule);
 (createModule.exports)();
