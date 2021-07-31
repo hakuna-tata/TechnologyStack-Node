@@ -16,6 +16,5 @@ if (!global.plug) {
     module.paths = plug.paths.concat(module.paths);
 }
 
-
 const package = global.plug('package');
 package.exec();
