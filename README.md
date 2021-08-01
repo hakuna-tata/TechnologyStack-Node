@@ -1,2 +1,2 @@
 # TechnologyStack-Node
-学习 Node.js 高级用法，拒绝 CRUD。
+拒绝使用 Node.js 进行 CRUD，学习各种模块实战中的高级用法。
