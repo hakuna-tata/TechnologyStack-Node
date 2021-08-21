@@ -4,11 +4,15 @@ const { fork } = require('child_process');
 const masterPort = 12888;
 
 const server = http.createServer((req, res) => {
-    console.log('master request url:', req.url);
+    if (req.url === '/ping#') {
+        res.end('pong#');
+    }
 });
 
 const masterMonitor = () => {
-    fork(path.resolve(__dirname, './masterMonitor.js'));
+    fork(path.resolve(__dirname, './masterMonitor.js'), [process.pid, masterPort], {
+        silent: false,
+    });
 };
 
 console.log('start master http....');
