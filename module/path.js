@@ -1,20 +1,20 @@
 const path = require('path');
 
-const plug = (id) => {
+const depend = (id) => {
     return require(id);
 };
 
-if (!global.plug) {
-    global.plug = plug;
+if (!global.depend) {
+    global.depend = depend;
 
-    plug.__dirname = __dirname;
-    plug.parent = path.resolve(__dirname, '..');
-    plug.paths = [
+    depend.__dirname = __dirname;
+    depend.parent = path.resolve(__dirname, '..');
+    depend.paths = [
         path.resolve(__dirname, 'deps'),
     ]
 
-    module.paths = plug.paths.concat(module.paths);
+    module.paths = depend.paths.concat(module.paths);
 }
 
-const package = global.plug('package');
+const package = global.depend('package');
 package.exec();
