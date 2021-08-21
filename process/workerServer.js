@@ -7,11 +7,11 @@ const server = http.createServer((req, res) => {
 });
 
 const heartBeat = () => {
-    process.send({
+    process.connected && process.send({
         cmd: 'heartBeat',
         memoryUsage: process.memoryUsage(),
     })
-}
+};
 
 methodMap.listen = (cpuId) => {
     process.title = `cluster/worker/${cpuId}`;
@@ -19,16 +19,14 @@ methodMap.listen = (cpuId) => {
     server.listen(workerPort,  () => {
         console.log(`worker http listen on 127.0.0.1:${workerPort}`);
 
-        setInterval(heartBeat, 10000);
+        setInterval(heartBeat, 10 * 1000);
     });
-}
+};
 
 process.on('message', (msg) => {
     if (!msg) return;
     
     if (!msg.cmd) return;
-
-    console.log(`cpu${msg.cpuId} receive message, cmd: ${msg.cmd}`);
 
     methodMap[msg.cmd](msg.cpuId || 0);
 });

@@ -8,8 +8,6 @@ const server = http.createServer((req, res) => {
 });
 
 const masterMonitor = () => {
-    console.log('start master monitor....');
-
     fork(path.resolve(__dirname, './masterMonitor.js'));
 };
 
