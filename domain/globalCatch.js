@@ -16,10 +16,9 @@ try {
 
 try {
     new Promise(() => {
-        a()
+        a();
     })
-}
-catch (e) {
+} catch (e) {
     console.log('catch sync error:', e);
 }
 
