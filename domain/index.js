@@ -6,13 +6,13 @@ const doRoute = (d) => {
 
     const reqId = parseInt(d.req.url.substr(1));
     d.reqId = reqId;
-    
-    setTimeout(() => {
-        if(reqId === 3){
-　　　　　　throw new Error('test error domain context')
-　　　　}
 
-　　　　d.res.end(`test success domain context: ${d.reqId}`)
+    setTimeout(() => {
+        if (reqId === 3) {
+            throw new Error('test error domain context')
+        }
+
+        d.res.end(`test success domain context: ${d.reqId}`)
     }, (5 - reqId) * 1000)
 }
 
@@ -39,7 +39,7 @@ const domainRequest = (req, res) => {
 
     res.once('finish', () => {
         res.removeAllListeners('finish');
-        
+
         d.remove(req);
         d.remove(res);
         req = null;
